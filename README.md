@@ -1,0 +1,2 @@
+# RSParallaxScrollView
+Inspired by PWParallaxScrollView.
