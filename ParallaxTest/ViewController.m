@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-#import "PWParallaxScrollView.h"
+//#import "PWParallaxScrollView.h"
 #import "RSParallaxScrollView.h"
 
 @interface ViewController ()<RSParallaxScrollViewDataSource>
@@ -49,12 +49,12 @@
 
 #pragma mark - PWParallaxScrollViewSource
 
-- (NSInteger)numberOfItemsInScrollView:(PWParallaxScrollView *)scrollView
+- (NSInteger)numberOfItemsInScrollView:(RSParallaxScrollView *)scrollView
 {
     return self.photos.count;
 }
 
-- (UIView *)backgroundViewAtIndex:(NSInteger)index scrollView:(PWParallaxScrollView *)scrollView
+- (UIView *)backgroundViewAtIndex:(NSInteger)index scrollView:(RSParallaxScrollView *)scrollView
 {
     UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:self.photos[index]]];
     imageView.frame = self.view.bounds;
@@ -62,7 +62,7 @@
     return imageView;
 }
 
-- (UIView *)foregroundViewAtIndex:(NSInteger)index scrollView:(PWParallaxScrollView *)scrollView
+- (UIView *)foregroundViewAtIndex:(NSInteger)index scrollView:(RSParallaxScrollView *)scrollView
 {
     UIView * view = [[UIView alloc] initWithFrame:self.view.bounds];
     view.backgroundColor = [UIColor clearColor];
@@ -94,12 +94,12 @@
 
 #pragma mark - PWParallaxScrollViewDelegate
 
-- (void)parallaxScrollView:(PWParallaxScrollView *)scrollView didChangeIndex:(NSInteger)index
+- (void)parallaxScrollView:(RSParallaxScrollView *)scrollView didChangeIndex:(NSInteger)index
 {
 
 }
 
-- (void)parallaxScrollView:(PWParallaxScrollView *)scrollView didEndDeceleratingAtIndex:(NSInteger)index
+- (void)parallaxScrollView:(RSParallaxScrollView *)scrollView didEndDeceleratingAtIndex:(NSInteger)index
 {
     
 }

@@ -22,7 +22,6 @@
 		59EBD8691AF07705003E5F22 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 59EBD8681AF07705003E5F22 /* Images.xcassets */; };
 		59EBD86C1AF07705003E5F22 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 59EBD86A1AF07705003E5F22 /* LaunchScreen.xib */; };
 		59EBD8781AF07705003E5F22 /* ParallaxTestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 59EBD8771AF07705003E5F22 /* ParallaxTestTests.m */; };
-		59EBD8841AF07741003E5F22 /* PWParallaxScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59EBD8831AF07741003E5F22 /* PWParallaxScrollView.m */; };
 		59EBD8941AF0B72F003E5F22 /* RSParallaxScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59EBD8931AF0B72F003E5F22 /* RSParallaxScrollView.m */; };
 /* End PBXBuildFile section */
 
@@ -58,8 +57,6 @@
 		59EBD8711AF07705003E5F22 /* ParallaxTestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ParallaxTestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		59EBD8761AF07705003E5F22 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		59EBD8771AF07705003E5F22 /* ParallaxTestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ParallaxTestTests.m; sourceTree = "<group>"; };
-		59EBD8821AF07741003E5F22 /* PWParallaxScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWParallaxScrollView.h; sourceTree = "<group>"; };
-		59EBD8831AF07741003E5F22 /* PWParallaxScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PWParallaxScrollView.m; sourceTree = "<group>"; };
 		59EBD8921AF0B72F003E5F22 /* RSParallaxScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSParallaxScrollView.h; sourceTree = "<group>"; };
 		59EBD8931AF0B72F003E5F22 /* RSParallaxScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSParallaxScrollView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -148,8 +145,6 @@
 		59EBD8811AF07741003E5F22 /* PWParallaxScrollView */ = {
 			isa = PBXGroup;
 			children = (
-				59EBD8821AF07741003E5F22 /* PWParallaxScrollView.h */,
-				59EBD8831AF07741003E5F22 /* PWParallaxScrollView.m */,
 			);
 			path = PWParallaxScrollView;
 			sourceTree = SOURCE_ROOT;
@@ -281,7 +276,6 @@
 				59EBD8641AF07705003E5F22 /* ViewController.m in Sources */,
 				59EBD8611AF07705003E5F22 /* AppDelegate.m in Sources */,
 				59EBD85E1AF07705003E5F22 /* main.m in Sources */,
-				59EBD8841AF07741003E5F22 /* PWParallaxScrollView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
