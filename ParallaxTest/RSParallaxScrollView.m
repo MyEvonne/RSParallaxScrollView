@@ -106,7 +106,7 @@ typedef NS_ENUM(NSInteger, RSParallaxScrollDirection) {
     _scrollViewForeground.contentSize = _scrollViewForControl.contentSize;
     
     [self layoutBackgroundViewAtIndex:0];
-//    [self layoutForegroundViewAtIndex:0];
+    [self layoutForegroundViewAtIndex:0];
 }
 
 #pragma mark - Background View Methods
@@ -187,7 +187,6 @@ typedef NS_ENUM(NSInteger, RSParallaxScrollDirection) {
 
 - (void)backgroundScrollRightOnePage
 {
-    _indexCurrent++;
     [_viewBackgroundLeft removeFromSuperview];
     _viewBackgroundLeft = _viewBackgroundMiddle;
     _viewBackgroundMiddle = _viewBackgroundRight;
@@ -205,7 +204,6 @@ typedef NS_ENUM(NSInteger, RSParallaxScrollDirection) {
 
 - (void)backgroundScrollLeftOnePage
 {
-    _indexCurrent--;
     [_viewBackgroundRight removeFromSuperview];
     _viewBackgroundRight = _viewBackgroundMiddle;
     _viewBackgroundMiddle = _viewBackgroundLeft;
@@ -240,6 +238,11 @@ typedef NS_ENUM(NSInteger, RSParallaxScrollDirection) {
 
 - (UIView *)foregroundViewForIndex:(NSInteger)index
 {
+    if (index < 0 || index >= _numberOfItems)
+    {
+        return nil;
+    }
+    
     CGRect frame;
 
     UIView * foregroundView = nil;
@@ -254,37 +257,56 @@ typedef NS_ENUM(NSInteger, RSParallaxScrollDirection) {
     return foregroundView;
 }
 
+- (void)foregroundScrollWithOffset:(CGPoint)offset
+{
+    _scrollViewForeground.contentOffset = offset;
+}
+
+- (void)foregroundScrollRightOnePage
+{
+    [_viewForegroundLeft removeFromSuperview];
+    _viewForegroundLeft = _viewForegroundMiddle;
+    _viewForegroundMiddle = _viewForegroundRight;
+    UIView * newRight = [self foregroundViewForIndex:(_indexCurrent + 1)];
+    _viewForegroundRight = newRight;
+    if (newRight)
+    {
+        [_scrollViewForeground addSubview:newRight];
+    }
+}
+
+- (void)foregroundScrollLeftOnePage
+{
+    [_viewForegroundRight removeFromSuperview];
+    _viewForegroundRight = _viewForegroundMiddle;
+    _viewForegroundMiddle = _viewForegroundLeft;
+    UIView * newLeft = [self foregroundViewForIndex:(_indexCurrent - 1)];
+    _viewForegroundLeft = newLeft;
+    if (newLeft)
+    {
+        [_scrollViewForeground addSubview:newLeft];
+    }
+}
 
 #pragma mark - Control Methods
-- (void)scrollLeftComplete
-{
-    
-}
 
-- (void)scrollRight
-{
-    
-}
-
-- (void)scrollRightComplete
-{
-    
-}
 
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-//    _scrollViewForeground.contentOffset = scrollView.contentOffset;
-    
     CGFloat xOffsetOfIndex = scrollView.frame.size.width * _indexCurrent;
     CGFloat xOffsetDelta = scrollView.contentOffset.x - xOffsetOfIndex;
+    
+    [self foregroundScrollWithOffset:scrollView.contentOffset];
     
     if (xOffsetDelta > 0)
     {//scroll right
         [self backgroundScrollRightWithOffset:scrollView.contentOffset];
         if (fabsf(xOffsetDelta) >= scrollView.frame.size.width)
         {//paging
+            _indexCurrent++;
             [self backgroundScrollRightOnePage];
+            [self foregroundScrollRightOnePage];
         }
     }
     else if (xOffsetDelta < 0)
@@ -292,7 +314,9 @@ typedef NS_ENUM(NSInteger, RSParallaxScrollDirection) {
         [self backgroundScrollLeftWithOffset:scrollView.contentOffset];
         if (fabsf(xOffsetDelta) >= scrollView.frame.size.width)
         {//paging
+            _indexCurrent--;
             [self backgroundScrollLeftOnePage];
+            [self foregroundScrollLeftOnePage];
         }
     }
 //    NSLog(@"index: %d", _indexCurrent);

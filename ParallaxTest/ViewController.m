@@ -74,6 +74,16 @@
     UIView * viewRightBar = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetWidth(view.frame) - 2, 0, 2, CGRectGetHeight(view.frame))];
     viewRightBar.backgroundColor = [UIColor blackColor];
     [view addSubview:viewRightBar];
+    
+    UILabel * lbl = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+    lbl.backgroundColor = [UIColor clearColor];
+    lbl.text = [NSString stringWithFormat:@"%ld", (long)index];
+    lbl.font = [UIFont boldSystemFontOfSize:100];
+    lbl.textColor = [UIColor colorWithWhite:0.5 alpha:0.7];
+    lbl.textAlignment = NSTextAlignmentCenter;
+    lbl.center = CGPointMake(CGRectGetWidth(view.frame) / 2, CGRectGetHeight(view.frame) / 2);
+    [view addSubview:lbl];
+    
     return view;
 }
 
