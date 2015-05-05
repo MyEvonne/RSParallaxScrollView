@@ -17,7 +17,9 @@ typedef NS_ENUM(NSInteger, RSParallaxScrollDirection) {
 @interface RSParallaxScrollView ()<UIScrollViewDelegate>
 {
     UIScrollView *              _scrollViewForControl;
-    
+    NSUInteger                  _indexCurrent;
+    NSUInteger                  _numberOfItems;
+
     UIScrollView *              _scrollViewBackground;
     UIView *                    _viewBackgroundLeft;
     UIView *                    _viewBackgroundMiddle;
@@ -27,11 +29,6 @@ typedef NS_ENUM(NSInteger, RSParallaxScrollDirection) {
     UIView *                    _viewForegroundLeft;
     UIView *                    _viewForegroundMiddle;
     UIView *                    _viewForegroundRight;
-
-    NSUInteger                  _numberOfItems;
-    
-    NSUInteger                  _currentIndex;
-    
 }
 @end
 
@@ -42,7 +39,7 @@ typedef NS_ENUM(NSInteger, RSParallaxScrollDirection) {
 {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        [self initControl];
+        [self initViews];
     }
     return self;
 }
@@ -51,12 +48,19 @@ typedef NS_ENUM(NSInteger, RSParallaxScrollDirection) {
 {
     self = [super initWithFrame:frame];
     if (self) {
-        [self initControl];
+        [self initViews];
     }
     return self;
 }
 
-- (void)initControl
+- (void)initViews
+{
+    [self initBackgroundScrollView];
+    [self initForegroundScrollView];
+    [self initControlScrollView];
+}
+
+- (void)initControlScrollView
 {
     _scrollViewForControl = [[UIScrollView alloc] initWithFrame:self.bounds];
     _scrollViewForControl.delegate = self;
@@ -64,20 +68,27 @@ typedef NS_ENUM(NSInteger, RSParallaxScrollDirection) {
     _scrollViewForControl.backgroundColor = [UIColor clearColor];
     _scrollViewForControl.contentOffset = CGPointMake(0, 0);
     _scrollViewForControl.multipleTouchEnabled = YES;
+    [self addSubview:_scrollViewForControl];
     
+    _indexCurrent = 0;
+}
+
+- (void)initBackgroundScrollView
+{
     _scrollViewBackground = [[UIScrollView alloc] initWithFrame:self.bounds];
     _scrollViewBackground.pagingEnabled = YES;
     _scrollViewBackground.backgroundColor = [UIColor clearColor];
     _scrollViewBackground.contentOffset = CGPointMake(0, 0);
-    
+    [self addSubview:_scrollViewBackground];
+}
+
+- (void)initForegroundScrollView
+{
     _scrollViewForeground = [[UIScrollView alloc] initWithFrame:self.bounds];
     _scrollViewForeground.pagingEnabled = YES;
     _scrollViewForeground.backgroundColor = [UIColor clearColor];
     _scrollViewForeground.contentOffset = CGPointMake(0, 0);
-    
-    [self addSubview:_scrollViewBackground];
     [self addSubview:_scrollViewForeground];
-    [self addSubview:_scrollViewForControl];
 }
 
 #pragma mark - Public Methods
@@ -85,21 +96,20 @@ typedef NS_ENUM(NSInteger, RSParallaxScrollDirection) {
 {
     _numberOfItems = [self.dataSource numberOfItemsInScrollView:self];
     
-    [_scrollViewForControl setContentOffset:CGPointMake(0, 0) animated:NO];
+//    [_scrollViewForControl setContentOffset:CGPointMake(0, 0) animated:NO];
     [_scrollViewForControl setContentSize:CGSizeMake(CGRectGetWidth(self.frame) * _numberOfItems, CGRectGetHeight(self.frame))];
 
-    [_scrollViewBackground setContentOffset:CGPointMake(0, 0) animated:NO];
+//    [_scrollViewBackground setContentOffset:CGPointMake(0, 0) animated:NO];
     [_scrollViewBackground.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     [_scrollViewBackground setContentSize:CGSizeMake(CGRectGetWidth(self.frame) / 2 * (_numberOfItems + 1), CGRectGetHeight(self.frame))];
     
     _scrollViewForeground.contentSize = _scrollViewForControl.contentSize;
     
     [self layoutBackgroundViewAtIndex:0];
-    [self layoutForegroundViewAtIndex:0];
-    _currentIndex = 0;
+//    [self layoutForegroundViewAtIndex:0];
 }
 
-#pragma mark - Background View Generator
+#pragma mark - Background View Methods
 - (void)layoutBackgroundViewAtIndex:(NSInteger)index
 {
     if (index < 0 || index >= _numberOfItems)
@@ -114,15 +124,16 @@ typedef NS_ENUM(NSInteger, RSParallaxScrollDirection) {
     [self layoutLeftBackgroundViewOfIndex:index];
 }
 
-- (void)layoutMiddleBackgroundViewOfIndex:(NSInteger)index
+- (UIView *)layoutMiddleBackgroundViewOfIndex:(NSInteger)index
 {
     
     UIView * view = [self backgroundViewForIndex:index];
     [_scrollViewBackground addSubview:view];
     _viewBackgroundMiddle = view;
+    return view;
 }
 
-- (void)layoutLeftBackgroundViewOfIndex:(NSInteger)index
+- (UIView *)layoutLeftBackgroundViewOfIndex:(NSInteger)index
 {
     NSInteger indexLeft = index - 1;
     if (indexLeft >= 0)
@@ -133,10 +144,12 @@ typedef NS_ENUM(NSInteger, RSParallaxScrollDirection) {
         view.frame = frame;
         [_scrollViewBackground addSubview:view];
         _viewBackgroundLeft = view;
+        return view;
     }
+    return nil;
 }
 
-- (void)layoutRightBackgroundViewOfIndex:(NSInteger)index
+- (UIView *)layoutRightBackgroundViewOfIndex:(NSInteger)index
 {
     NSInteger indexRight = index + 1;
     if (indexRight < _numberOfItems)
@@ -144,9 +157,12 @@ typedef NS_ENUM(NSInteger, RSParallaxScrollDirection) {
         UIView * view = [self backgroundViewForIndex:indexRight];
         [_scrollViewBackground addSubview:view];
         [_scrollViewBackground sendSubviewToBack:view];
-        _viewBackgroundLeft = view;
+        _viewBackgroundRight = view;
+        return view;
     }
+    return nil;
 }
+
 
 - (UIView *)backgroundViewForIndex:(NSInteger)index
 {
@@ -160,7 +176,43 @@ typedef NS_ENUM(NSInteger, RSParallaxScrollDirection) {
     return backgroundView;
 }
 
-#pragma mark - Foreground View Generator
+- (void)backgroundScrollRightWithOffset:(CGPoint)offset
+{
+    _scrollViewBackground.contentOffset = CGPointMake(offset.x / 2, offset.y);
+    
+    CGRect frame = _viewBackgroundMiddle.frame;
+    frame.size.width = self.frame.size.width - (_scrollViewBackground.contentOffset.x - frame.origin.x);
+    _viewBackgroundMiddle.frame = frame;
+}
+
+- (void)backgroundScrollRightOnePage
+{
+    _indexCurrent++;
+    [_viewBackgroundLeft removeFromSuperview];
+    _viewBackgroundLeft = _viewBackgroundMiddle;
+    _viewBackgroundMiddle = _viewBackgroundRight;
+    _viewBackgroundRight = [self layoutRightBackgroundViewOfIndex:_indexCurrent];
+}
+
+- (void)backgroundScrollLeftWithOffset:(CGPoint)offset
+{
+    _scrollViewBackground.contentOffset = CGPointMake(offset.x / 2, offset.y);
+
+    CGRect frame = _viewBackgroundLeft.frame;
+    frame.size.width = self.frame.size.width - (_scrollViewBackground.contentOffset.x - frame.origin.x);
+    _viewBackgroundLeft.frame = frame;
+}
+
+- (void)backgroundScrollLeftOnePage
+{
+    _indexCurrent--;
+    [_viewBackgroundRight removeFromSuperview];
+    _viewBackgroundRight = _viewBackgroundMiddle;
+    _viewBackgroundMiddle = _viewBackgroundLeft;
+    _viewBackgroundLeft = [self layoutLeftBackgroundViewOfIndex:_indexCurrent];
+}
+
+#pragma mark - Foreground View Methods
 - (void)layoutForegroundViewAtIndex:(NSInteger)index
 {
     if (index < 0 || index >= _numberOfItems)
@@ -203,56 +255,47 @@ typedef NS_ENUM(NSInteger, RSParallaxScrollDirection) {
 }
 
 
-#pragma mark - View Animation
-- (RSParallaxScrollDirection)scrollDirection
+#pragma mark - Control Methods
+- (void)scrollLeftComplete
 {
-    if (_scrollViewBackground.contentOffset.x < _viewBackgroundMiddle.frame.origin.x)
-        return RSParallaxScrollDirectionRight;
-    else if (_scrollViewBackground.contentOffset.x > _viewBackgroundMiddle.frame.origin.x)
-        return RSParallaxScrollDirectionLeft;
-    else
-        return RSParallaxScrollDirectionNone;
+    
 }
 
-- (void)scrollLeft
+- (void)scrollRight
 {
-    CGRect frame = _viewBackgroundMiddle.frame;
-    frame.size.width = self.frame.size.width - (_scrollViewBackground.contentOffset.x - frame.origin.x);
-    _viewBackgroundMiddle.frame = frame;
-    NSLog(@"Middle Background frame: x:%f, width:%f", _viewBackgroundMiddle.frame.origin.x, _viewBackgroundMiddle.frame.size.width);
+    
+}
+
+- (void)scrollRightComplete
+{
+    
 }
 
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-//    NSLog(@"contentOffset: %f, %f", scrollView.contentOffset.x, scrollView.contentOffset.y);
-
-    _scrollViewForeground.contentOffset = scrollView.contentOffset;
-    _scrollViewBackground.contentOffset = CGPointMake(scrollView.contentOffset.x / 2, scrollView.contentOffset.y);
+//    _scrollViewForeground.contentOffset = scrollView.contentOffset;
     
-//    NSLog(@"contentOffset: %f, %f", _scrollViewBackground.contentOffset.x, _scrollViewBackground.contentOffset.y);
-
-    RSParallaxScrollDirection direction = [self scrollDirection];
-    if (direction == RSParallaxScrollDirectionLeft)
-    {
-        [self scrollLeft];
-    }
-    else if (direction == RSParallaxScrollDirectionRight)
-    {
-//        NSLog(@"R");
-    }
+    CGFloat xOffsetOfIndex = scrollView.frame.size.width * _indexCurrent;
+    CGFloat xOffsetDelta = scrollView.contentOffset.x - xOffsetOfIndex;
     
-    NSUInteger indexShowed = floorf(scrollView.contentOffset.x / CGRectGetWidth(scrollView.frame));
-    if (_currentIndex > indexShowed)
-    {
-        [self layoutForegroundViewAtIndex:indexShowed];
-        [self layoutBackgroundViewAtIndex:indexShowed];
-        _currentIndex = indexShowed;
+    if (xOffsetDelta > 0)
+    {//scroll right
+        [self backgroundScrollRightWithOffset:scrollView.contentOffset];
+        if (fabsf(xOffsetDelta) >= scrollView.frame.size.width)
+        {//paging
+            [self backgroundScrollRightOnePage];
+        }
     }
-    else if (_currentIndex < indexShowed)
-    {
-        
+    else if (xOffsetDelta < 0)
+    {//scroll left
+        [self backgroundScrollLeftWithOffset:scrollView.contentOffset];
+        if (fabsf(xOffsetDelta) >= scrollView.frame.size.width)
+        {//paging
+            [self backgroundScrollLeftOnePage];
+        }
     }
+//    NSLog(@"index: %d", _indexCurrent);
 }
 
 @end
