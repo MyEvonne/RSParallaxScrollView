@@ -100,7 +100,6 @@
 		59EBD85A1AF07705003E5F22 /* ParallaxTest */ = {
 			isa = PBXGroup;
 			children = (
-				59EBD8811AF07741003E5F22 /* PWParallaxScrollView */,
 				59EBD85F1AF07705003E5F22 /* AppDelegate.h */,
 				59EBD8601AF07705003E5F22 /* AppDelegate.m */,
 				59EBD8621AF07705003E5F22 /* ViewController.h */,
@@ -141,13 +140,6 @@
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
-		};
-		59EBD8811AF07741003E5F22 /* PWParallaxScrollView */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = PWParallaxScrollView;
-			sourceTree = SOURCE_ROOT;
 		};
 		59EBD8851AF07BC0003E5F22 /* Resources */ = {
 			isa = PBXGroup;

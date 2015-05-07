@@ -68,6 +68,7 @@ typedef NS_ENUM(NSInteger, RSParallaxScrollDirection) {
     _scrollViewForControl.backgroundColor = [UIColor clearColor];
     _scrollViewForControl.contentOffset = CGPointMake(0, 0);
     _scrollViewForControl.multipleTouchEnabled = YES;
+    _scrollViewForControl.showsHorizontalScrollIndicator = NO;
     [self addSubview:_scrollViewForControl];
     
     _indexCurrent = 0;
@@ -259,7 +260,14 @@ typedef NS_ENUM(NSInteger, RSParallaxScrollDirection) {
 
 - (void)foregroundScrollWithOffset:(CGPoint)offset
 {
-    _scrollViewForeground.contentOffset = offset;
+    if (offset.x < 0)
+    {
+        _scrollViewForeground.contentOffset = CGPointMake(offset.x / 2, offset.y);
+    }
+    else
+    {
+        _scrollViewForeground.contentOffset = offset;
+    }
 }
 
 - (void)foregroundScrollRightOnePage
@@ -319,7 +327,6 @@ typedef NS_ENUM(NSInteger, RSParallaxScrollDirection) {
             [self foregroundScrollLeftOnePage];
         }
     }
-//    NSLog(@"index: %d", _indexCurrent);
 }
 
 @end
