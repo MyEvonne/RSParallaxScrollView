@@ -22,7 +22,7 @@
 		59EBD8691AF07705003E5F22 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 59EBD8681AF07705003E5F22 /* Images.xcassets */; };
 		59EBD86C1AF07705003E5F22 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 59EBD86A1AF07705003E5F22 /* LaunchScreen.xib */; };
 		59EBD8781AF07705003E5F22 /* ParallaxTestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 59EBD8771AF07705003E5F22 /* ParallaxTestTests.m */; };
-		59EBD8941AF0B72F003E5F22 /* RSParallaxScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59EBD8931AF0B72F003E5F22 /* RSParallaxScrollView.m */; };
+		59EE93FA1B81A6EC003A9DF3 /* RSParallaxScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59EE93F91B81A6EC003A9DF3 /* RSParallaxScrollView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,8 +57,8 @@
 		59EBD8711AF07705003E5F22 /* ParallaxTestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ParallaxTestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		59EBD8761AF07705003E5F22 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		59EBD8771AF07705003E5F22 /* ParallaxTestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ParallaxTestTests.m; sourceTree = "<group>"; };
-		59EBD8921AF0B72F003E5F22 /* RSParallaxScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSParallaxScrollView.h; sourceTree = "<group>"; };
-		59EBD8931AF0B72F003E5F22 /* RSParallaxScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSParallaxScrollView.m; sourceTree = "<group>"; };
+		59EE93F81B81A6EC003A9DF3 /* RSParallaxScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSParallaxScrollView.h; sourceTree = "<group>"; };
+		59EE93F91B81A6EC003A9DF3 /* RSParallaxScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSParallaxScrollView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +82,7 @@
 		59EBD84F1AF07705003E5F22 = {
 			isa = PBXGroup;
 			children = (
+				59EE93F41B81A641003A9DF3 /* Classes */,
 				59EBD85A1AF07705003E5F22 /* ParallaxTest */,
 				59EBD8741AF07705003E5F22 /* ParallaxTestTests */,
 				59EBD8591AF07705003E5F22 /* Products */,
@@ -108,8 +109,6 @@
 				59EBD8681AF07705003E5F22 /* Images.xcassets */,
 				59EBD86A1AF07705003E5F22 /* LaunchScreen.xib */,
 				59EBD85B1AF07705003E5F22 /* Supporting Files */,
-				59EBD8921AF0B72F003E5F22 /* RSParallaxScrollView.h */,
-				59EBD8931AF0B72F003E5F22 /* RSParallaxScrollView.m */,
 			);
 			path = ParallaxTest;
 			sourceTree = "<group>";
@@ -154,6 +153,15 @@
 				59E5469C1AF1C22900A85E73 /* 8.jpg */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		59EE93F41B81A641003A9DF3 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				59EE93F81B81A6EC003A9DF3 /* RSParallaxScrollView.h */,
+				59EE93F91B81A6EC003A9DF3 /* RSParallaxScrollView.m */,
+			);
+			path = Classes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -264,8 +272,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				59EBD8941AF0B72F003E5F22 /* RSParallaxScrollView.m in Sources */,
 				59EBD8641AF07705003E5F22 /* ViewController.m in Sources */,
+				59EE93FA1B81A6EC003A9DF3 /* RSParallaxScrollView.m in Sources */,
 				59EBD8611AF07705003E5F22 /* AppDelegate.m in Sources */,
 				59EBD85E1AF07705003E5F22 /* main.m in Sources */,
 			);
@@ -343,7 +351,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -378,7 +386,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
