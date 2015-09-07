@@ -10,12 +10,14 @@
 
 static const CGFloat kRSParallaxViewBorderWidth = 3.0;
 
-@interface RSParallaxScrollView () <UIScrollViewDelegate> {
-    NSInteger _numberOfItems;
+@interface RSParallaxScrollView () <UIScrollViewDelegate>
+{
     
-    UIView *_viewLeft;
-    UIView *_viewMiddle;
-    UIView *_viewRight;
+    NSInteger mNumberOfItems;
+    
+    UIView *mViewLeft;
+    UIView *mViewMiddle;
+    UIView *mViewRight;
 }
 
 @end
@@ -39,14 +41,14 @@ static const CGFloat kRSParallaxViewBorderWidth = 3.0;
 
 #pragma mark - Public Methods
 - (void)reloadData {
-    _numberOfItems = [self.dataSource numberOfItemsInScrollView:self];
+    mNumberOfItems = [self.dataSource numberOfItemsInScrollView:self];
     
-    self.contentSize = CGSizeMake(self.frame.size.width * _numberOfItems,
+    self.contentSize = CGSizeMake(self.frame.size.width * mNumberOfItems,
                                   CGRectGetHeight(self.frame));
     
-    [_viewLeft removeFromSuperview];
-    [_viewMiddle removeFromSuperview];
-    [_viewRight removeFromSuperview];
+    [mViewLeft removeFromSuperview];
+    [mViewMiddle removeFromSuperview];
+    [mViewRight removeFromSuperview];
     
     [self layoutLeftViewByIndex:_currentIndex];
     [self layoutMiddleViewByIndex:_currentIndex];
@@ -54,23 +56,23 @@ static const CGFloat kRSParallaxViewBorderWidth = 3.0;
 }
 
 - (UIView *)leftView {
-    return _viewLeft;
+    return mViewLeft;
 }
 
 - (UIView *)middleView {
-    return _viewMiddle;
+    return mViewMiddle;
 }
 
 - (UIView *)rightView {
-    return _viewRight;
+    return mViewRight;
 }
 
 - (NSInteger)indexForView:(UIView *)view {
-    if (view == _viewLeft) {
+    if (view == mViewLeft) {
         return _currentIndex - 1;
-    } else if (view == _viewMiddle) {
+    } else if (view == mViewMiddle) {
         return _currentIndex;
-    } else if (view == _viewRight) {
+    } else if (view == mViewRight) {
         return _currentIndex + 1;
     } else {
         return -1;
@@ -79,11 +81,11 @@ static const CGFloat kRSParallaxViewBorderWidth = 3.0;
 
 - (UIView *)viewInIndex:(NSInteger)index {
     if (index == _currentIndex - 1) {
-        return _viewLeft;
+        return mViewLeft;
     } else if (index == _currentIndex) {
-        return _viewMiddle;
+        return mViewMiddle;
     } else if (index == _currentIndex + 1) {
-        return _viewRight;
+        return mViewRight;
     } else {
         return nil;
     }
@@ -91,20 +93,20 @@ static const CGFloat kRSParallaxViewBorderWidth = 3.0;
 
 #pragma mark - Layout Views
 - (UIView *)layoutMiddleViewByIndex:(NSInteger)index {
-    _viewMiddle = [self viewForIndex:index];
-    [self addSubview:_viewMiddle];
-    [self didLoadView:_viewMiddle];
-    return _viewMiddle;
+    mViewMiddle = [self viewForIndex:index];
+    [self addSubview:mViewMiddle];
+    [self didLoadView:mViewMiddle];
+    return mViewMiddle;
 }
 
 - (UIView *)layoutLeftViewByIndex:(NSInteger)index {
     NSInteger indexLeft = index - 1;
-    _viewLeft = [self viewForIndex:indexLeft];
-    if (_viewLeft) {
-        [self addSubview:_viewLeft];
+    mViewLeft = [self viewForIndex:indexLeft];
+    if (mViewLeft) {
+        [self addSubview:mViewLeft];
     }
-    [self didLoadView:_viewLeft];
-    return _viewLeft;
+    [self didLoadView:mViewLeft];
+    return mViewLeft;
 }
 
 //- (void)setLeftViewFrame
@@ -117,27 +119,27 @@ static const CGFloat kRSParallaxViewBorderWidth = 3.0;
 
 - (UIView *)layoutRightViewByIndex:(NSInteger)index {
     NSInteger indexRight = index + 1;
-    _viewRight = [self viewForIndex:indexRight];
+    mViewRight = [self viewForIndex:indexRight];
     [self setRightViewFrame];
-    if (_viewRight) {
+    if (mViewRight) {
         
-        [self addSubview:_viewRight];
+        [self addSubview:mViewRight];
     }
-    [self didLoadView:_viewRight];
-    return _viewRight;
+    [self didLoadView:mViewRight];
+    return mViewRight;
 }
 
 - (void)setRightViewFrame {
-    CGRect frame = _viewRight.frame;
+    CGRect frame = mViewRight.frame;
     frame.size.width = frame.size.width / 2;
-    _viewRight.frame = frame;
-    frame = _viewRight.bounds;
+    mViewRight.frame = frame;
+    frame = mViewRight.bounds;
     frame.origin.x = frame.size.width;
-    _viewRight.bounds = frame;
+    mViewRight.bounds = frame;
 }
 
 - (UIView *)viewForIndex:(NSInteger)index {
-    if (index < 0 || index >= _numberOfItems) {
+    if (index < 0 || index >= mNumberOfItems) {
         return nil;
     }
     
@@ -160,12 +162,12 @@ static const CGFloat kRSParallaxViewBorderWidth = 3.0;
 }
 
 - (void)scrollRightWithXOffset:(CGFloat)xOffset {
-    CGRect frame = _viewRight.frame;
+    CGRect frame = mViewRight.frame;
     frame.size.width = self.frame.size.width / 2 + xOffset / 2;
-    _viewRight.frame = frame;
-    frame = _viewRight.bounds;
+    mViewRight.frame = frame;
+    frame = mViewRight.bounds;
     frame.origin.x = self.frame.size.width / 2 - xOffset / 2;
-    _viewRight.bounds = frame;
+    mViewRight.bounds = frame;
     if (self.scrollDelegate &&
         [self.scrollDelegate
          respondsToSelector:@selector(parallaxScrollView:didScroll:)]) {
@@ -176,19 +178,19 @@ static const CGFloat kRSParallaxViewBorderWidth = 3.0;
 
 - (void)scrollRightOnePage {
     _currentIndex++;
-    [_viewLeft removeFromSuperview];
-    _viewLeft = _viewMiddle;
-    _viewMiddle = _viewRight;
-    _viewRight = [self layoutRightViewByIndex:_currentIndex];
+    [mViewLeft removeFromSuperview];
+    mViewLeft = mViewMiddle;
+    mViewMiddle = mViewRight;
+    mViewRight = [self layoutRightViewByIndex:_currentIndex];
     
-    CGRect frame = _viewMiddle.frame;
+    CGRect frame = mViewMiddle.frame;
     frame.origin.x = self.frame.size.width * _currentIndex;
     frame.size.width = self.frame.size.width;
-    _viewMiddle.frame = frame;
-    frame = _viewMiddle.bounds;
+    mViewMiddle.frame = frame;
+    frame = mViewMiddle.bounds;
     frame.origin.x = 0;
     frame.size.width = self.frame.size.width;
-    _viewMiddle.bounds = frame;
+    mViewMiddle.bounds = frame;
     
     if (self.scrollDelegate &&
         [self.scrollDelegate
@@ -208,13 +210,13 @@ static const CGFloat kRSParallaxViewBorderWidth = 3.0;
 }
 
 - (void)scrollLeftWithXOffset:(CGFloat)xOffset {
-    CGRect frame = _viewMiddle.frame;
+    CGRect frame = mViewMiddle.frame;
     frame.size.width = self.frame.size.width + xOffset / 2;
-    _viewMiddle.frame = frame;
+    mViewMiddle.frame = frame;
     
-    frame = _viewMiddle.bounds;
+    frame = mViewMiddle.bounds;
     frame.origin.x = -xOffset / 2;
-    _viewMiddle.bounds = frame;
+    mViewMiddle.bounds = frame;
     
     if (self.scrollDelegate &&
         [self.scrollDelegate
@@ -226,19 +228,19 @@ static const CGFloat kRSParallaxViewBorderWidth = 3.0;
 
 - (void)scrollLeftOnePage {
     _currentIndex--;
-    [_viewRight removeFromSuperview];
-    _viewRight = _viewMiddle;
-    _viewMiddle = _viewLeft;
-    _viewLeft = [self layoutLeftViewByIndex:_currentIndex];
+    [mViewRight removeFromSuperview];
+    mViewRight = mViewMiddle;
+    mViewMiddle = mViewLeft;
+    mViewLeft = [self layoutLeftViewByIndex:_currentIndex];
     
-    CGRect frame = _viewMiddle.frame;
+    CGRect frame = mViewMiddle.frame;
     frame.origin.x = self.frame.size.width * _currentIndex;
     frame.size.width = self.frame.size.width;
-    _viewMiddle.frame = frame;
-    frame = _viewMiddle.bounds;
+    mViewMiddle.frame = frame;
+    frame = mViewMiddle.bounds;
     frame.origin.x = 0;
     frame.size.width = self.frame.size.width;
-    _viewMiddle.bounds = frame;
+    mViewMiddle.bounds = frame;
     
     if (self.scrollDelegate &&
         [self.scrollDelegate
@@ -258,14 +260,14 @@ static const CGFloat kRSParallaxViewBorderWidth = 3.0;
 }
 
 - (void)scrollCanceled {
-    CGRect frame = _viewMiddle.frame;
+    CGRect frame = mViewMiddle.frame;
     frame.size.width = self.frame.size.width;
-    _viewMiddle.frame = frame;
+    mViewMiddle.frame = frame;
     
-    frame = _viewMiddle.bounds;
+    frame = mViewMiddle.bounds;
     frame.origin.x = 0;
     frame.size.width = self.frame.size.width;
-    _viewMiddle.bounds = frame;
+    mViewMiddle.bounds = frame;
 }
 
 #pragma mark - Border View Methods

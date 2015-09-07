@@ -1,0 +1,32 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "1E0EEBCB5CBFCAC5A2AED26D2DA00FA312A0082E",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "27f30d4e-83cd-1f8e-8cab-1ea4aabfa12d++505" : {
+
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "1E0EEBCB5CBFCAC5A2AED26D2DA00FA312A0082E" : 0,
+    "27f30d4e-83cd-1f8e-8cab-1ea4aabfa12d++505" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "47CFE72D-A9A4-4EC9-ABAB-209F19306ED5",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "1E0EEBCB5CBFCAC5A2AED26D2DA00FA312A0082E" : "RSParallaxScrollView\/",
+    "27f30d4e-83cd-1f8e-8cab-1ea4aabfa12d++505" : ""
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "ParallaxTest",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "ParallaxTest.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/MyEvonne\/RSParallaxScrollView.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "1E0EEBCB5CBFCAC5A2AED26D2DA00FA312A0082E"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/fuel-consumption-calculator.googlecode.com\/svn",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "27f30d4e-83cd-1f8e-8cab-1ea4aabfa12d++505"
+    }
+  ]
+}

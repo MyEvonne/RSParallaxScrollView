@@ -21,8 +21,15 @@
 #pragma mark - view's life cycle
 
 - (void)initControl {
-    self.scrollView =
-    [[RSParallaxScrollView alloc] initWithFrame:self.view.bounds];
+    self.scrollView = [[RSParallaxScrollView alloc] initWithFrame:self.view.bounds];
+    self.scrollView.dataSource = self;
+    
+    [self.view insertSubview:_scrollView atIndex:0];
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
     self.photos = @[
                     @"1.jpg",
                     @"2.jpg",
@@ -33,16 +40,9 @@
                     @"7.jpg",
                     @"8.jpg"
                     ];
-    _scrollView.dataSource = self;
-    
-    [self.view insertSubview:_scrollView atIndex:0];
-}
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
     [self initControl];
-    [_scrollView reloadData];
+    [self.scrollView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -51,7 +51,7 @@
 
 #pragma mark - PWParallaxScrollViewSource
 
-- (NSInteger)numberOfItemsInScrollView:(RSParallaxScrollView *)scrollView {
+- (NSInteger)numberOfViewsInScrollView:(RSParallaxScrollView *)parallaxScrollView {
     return self.photos.count;
 }
 
